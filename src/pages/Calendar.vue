@@ -1,24 +1,22 @@
 <template>
-  <div class="mx-auto w-9/12">
-    <h1 class="text-2xl my-2">Calendar</h1>
-    <section class="flex justify-between">
-      <h2 class="px-3 font-bold"> {{ getMonthLocalString(currentMonth) }} </h2>
-      <h2 class="px-3 font-bold"> {{ currentYear }}</h2>
+  <div class="mx-auto w-9/12 ">
+    <section class="my-3 flex justify-between">
+      <button class="p-2 border rounded" style="width: calc(100% / 7)" type="button" @click="toPrevMonth">Prev</button>
+      <div class="text-2xl my-2">
+        <div class="px-3 font-bold">{{ currentYear }}년 {{ getMonthLocalString(currentMonth) }}</div>
+      </div>
+      <button class="p-2 border rounded" style="width: calc(100% / 7)" type="button" @click="toNextMonth">Next</button>
     </section>
 
     <section class="flex">
-      <p class="h-5 text-center mb-5" style="width: calc(100% / 7)" v-for="day in days" :key="day">{{ day }}</p>
+      <p v-for="day in days" :key="day" class="h-5 text-center mb-5" style="width: calc(100% / 7)">{{ day }}</p>
     </section>
     <section class="flex flex-wrap">
-      <p class="h-5 text-center" style="width: calc(100% / 7)"
-         v-for="i in getStartDay(currentYear, currentMonth)" :key="i"></p>
-      <p class="h-5 text-center" style="width: calc(100% / 7)"
-         v-for="i in daysInMonth(currentYear, currentMonth)" :key="i"
-         :class="isToday(currentYear, currentMonth, i) && 'font-bold text-yellow-600'">{{ i }}</p>
-    </section>
-    <section class="flex justify-between">
-      <button type="button" class="p-2 border rounded" @click="toPrevMonth">Prev</button>
-      <button type="button" class="p-2 border rounded" @click="toNextMonth">Next</button>
+      <p v-for="i in getStartDay(currentYear, currentMonth)" :key="i"
+         class="h-5 text-center" style="width: calc(100% / 7)"></p>
+      <p v-for="i in daysInMonth(currentYear, currentMonth)" :key="i"
+         :class="isToday(currentYear, currentMonth, i) && 'font-bold text-yellow-600'" class="h-5 text-center"
+         style="width: calc(100% / 7)">{{ i }}</p>
     </section>
   </div>
 </template>
@@ -41,7 +39,7 @@ export default {
     getMonthLocalString(month) {
       const date = new Date();
       date.setMonth(month);
-      return date.toLocaleString('default', {month: 'long'});
+      return date.toLocaleString('ko', {month: 'long'});
     },
     daysInMonth(year, month) {
       return new Date(year, month + 1, 0).getDate();
@@ -61,10 +59,6 @@ export default {
       }
     },
     isToday(year, month, date) {
-      console.log(
-          {year, month, date},
-          {year: new Date().getFullYear(), month: new Date().getMonth(), date: new Date().getDate()}
-      )
       const today = new Date();
       return today.getFullYear() === year
           && today.getMonth() === month
