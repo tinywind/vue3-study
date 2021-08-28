@@ -19,8 +19,9 @@
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
-              <router-link v-for="item in navigation" :key="item.name" :aria-current="item.current && 'page'"
-                           :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']"
+              <router-link v-for="item in navigation" :key="item.name"
+                           :aria-current="item.active && 'page'"
+                           :class="[item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']"
                            :to="item.href">{{ item.name }}
               </router-link>
             </div>
@@ -75,16 +76,18 @@
     </div>
     <DisclosurePanel class="sm:hidden">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a v-for="item in navigation" :key="item.name" :aria-current="item.current ? 'page' : undefined"
-           :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium']"
-           :href="item.href">{{ item.name }}</a>
+        <router-link v-for="item in navigation" :key="item.name"
+                     :aria-current="item.active ? 'page' : undefined"
+                     :class="[item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium']"
+                     :to="item.href">{{ item.name }}
+        </router-link>
       </div>
     </DisclosurePanel>
   </Disclosure>
 </template>
 <script>
 import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import {BellIcon, MenuIcon, XIcon} from "@zhuowenli/vue-feather-icons";
+import {BellIcon, MenuIcon, XIcon} from "@zhuowenli/vue-feather-icons"
 
 export default {
   name: 'AppHeader',
@@ -100,12 +103,18 @@ export default {
     MenuIcon,
     XIcon
   },
-  setup() {
+  data() {
     return {
       navigation: [
-        {name: 'Calendar', href: '/calendar', current: false},
+        {name: 'Calendar', href: '/calendar', active: location.pathname === '/calendar'},
+        {name: 'Markdown', href: '/markdown', active: location.pathname === '/markdown'},
       ],
     }
   },
+  watch: {
+    $route(to) {
+      this.navigation.map(item => item.active = item.href === to.path)
+    }
+  }
 }
 </script>
