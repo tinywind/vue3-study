@@ -108,6 +108,7 @@ export default {
       navigation: [
         {name: 'Calendar', href: '/calendar', active: location.pathname === '/calendar'},
         {name: 'Markdown', href: '/markdown', active: location.pathname === '/markdown'},
+        {name: 'Slider', href: '/slider', active: location.pathname === '/slider'},
       ],
     }
   },
