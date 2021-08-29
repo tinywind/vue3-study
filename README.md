@@ -39,6 +39,10 @@ VUE_APP_MEASUREMENT_ID={yours}
 # I don't know yet....
 
 - Why use composition API: ref(), reactive() ? We can do without ref(), reactive() functions. Really need to use them? Which situations do you absolutely need them?? why use? for performance? or for code readability?
+```
+Great! We can use ref(), reactive() when make composition APIs util functions!
+```
+
 
 ## Project setup
 
