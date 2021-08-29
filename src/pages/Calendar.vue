@@ -1,21 +1,21 @@
 <template>
   <div class="mx-auto w-9/12 ">
     <section class="my-3 flex justify-between">
-      <button class="p-2 border rounded w-[calc(100%/7)]" type="button" @click="toPrevMonth">Prev</button>
+      <button class="p-2 border rounded w-[calc(100%/7)]" style="width: calc(100% / 7)" type="button" @click="toPrevMonth">Prev</button>
       <div class="text-2xl my-2">
         <div class="px-3 font-bold">{{ currentYear }}년 {{ getMonthLocalString(currentMonth) }}</div>
       </div>
-      <button class="p-2 border rounded w-[calc(100%/7)]" type="button" @click="toNextMonth">Next</button>
+      <button class="p-2 border rounded w-[calc(100%/7)]" style="width: calc(100% / 7)" type="button" @click="toNextMonth">Next</button>
     </section>
     <section class="flex">
-      <p v-for="day in days" :key="day" class="h-5 text-center mb-5 w-[calc(100%/7)]">{{ day }}</p>
+      <p v-for="day in days" :key="day" class="h-5 text-center mb-5 w-[calc(100%/7)]" style="width: calc(100% / 7)">{{ day }}</p>
     </section>
     <section class="flex flex-wrap">
       <p v-for="i in getStartDay(currentYear, currentMonth)" :key="i"
-         class="h-5 text-center w-[calc(100%/7)]"></p>
+         class="h-5 text-center w-[calc(100%/7)]" style="width: calc(100% / 7)"></p>
       <p v-for="i in daysInMonth(currentYear, currentMonth)" :key="i"
          :class="isToday(currentYear, currentMonth, i) && 'font-bold text-yellow-600'"
-         class="h-5 text-center w-[calc(100%/7)]">{{ i }}</p>
+         class="h-5 text-center w-[calc(100%/7)]" style="width: calc(100% / 7)">{{ i }}</p>
     </section>
   </div>
 </template>
