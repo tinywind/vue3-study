@@ -11,13 +11,13 @@
 </template>
 <script>
 import marked from 'marked'
-import debounce from "@/utillities/debounce";
+import useDebounce from "@/utillities/compositions/useDebounce";
 
 export default {
-  mixins: [debounce],
   data() {
     return {
       text: '',
+      debounce: useDebounce()
     }
   },
   computed: {
