@@ -6,8 +6,8 @@
           <DisclosureButton
               class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <span class="sr-only">Open main menu</span>
-            <MenuIcon v-if="!open" aria-hidden="true" class="block h-6 w-6" size="1.5x"/>
-            <XIcon v-else aria-hidden="true" class="block h-6 w-6" size="1.5x"/>
+            <MenuIcon v-if="!open" aria-hidden="true" class="block h-6 w-6"/>
+            <XIcon v-else aria-hidden="true" class="block h-6 w-6"/>
           </DisclosureButton>
         </div>
         <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
@@ -21,18 +21,23 @@
             <div class="flex space-x-4">
               <router-link v-for="item in navigation" :key="item.name"
                            :aria-current="item.active && 'page'"
-                           :class="[item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']"
-                           :to="item.href">{{ item.name }}
+                           :class="[item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white']"
+                           :to="item.href"
+                           class="px-3 py-2 rounded-md text-sm font-medium">{{ item.name }}
               </router-link>
+              <button v-if="!user" :class="'text-gray-300 hover:bg-gray-700 hover:text-white'" class="px-3 py-2 rounded-md text-sm font-medium" type="button" @click="$emit('show-login-modal')">
+                Login
+              </button>
             </div>
           </div>
         </div>
-        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+        <div v-if="user" class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <button
               class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
               type="button">
             <span class="sr-only">View notifications</span>
-            <BellIcon aria-hidden="true" class="h-6 w-6" size="1.5x"/>
+            <BellIcon aria-hidden="true" class="h-6 w-6"/>
           </button>
 
           <Menu as="div" class="ml-3 relative">
@@ -40,9 +45,9 @@
               <MenuButton
                   class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span class="sr-only">Open user menu</span>
-                <img alt=""
-                     class="h-8 w-8 rounded-full"
-                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"/>
+
+                <img v-if="user.photoURL" :src="user.photoURL" alt="avatar" class="h-8 w-8 rounded-full"/>
+                <UserIcon v-else class="h-8 w-8 rounded-full border text-white"/>
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100"
@@ -51,22 +56,15 @@
                         leave-active-class="transition ease-in duration-75"
                         leave-from-class="transform opacity-100 scale-100"
                         leave-to-class="transform opacity-0 scale-95">
-              <MenuItems
-                  class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                 <MenuItem v-slot="{ active }">
-                  <a :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" href="#">
-                    Your Profile
-                  </a>
+                  <a :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" href="#">{{ user.displayName || user.email }}</a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" href="#">
-                    Settings
-                  </a>
+                  <a :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" href="#">Settings</a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" href="#">
-                    Sign out
-                  </a>
+                  <button :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" type="button" @click="logout">Logout</button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -87,7 +85,8 @@
 </template>
 <script>
 import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import {BellIcon, MenuIcon, XIcon} from "@zhuowenli/vue-feather-icons"
+import {BellIcon, MenuIcon, UserIcon, XIcon} from "@zhuowenli/vue-feather-icons"
+import {logout, registerUserStateChangeEvent} from "@/utillities/firebase";
 
 export default {
   name: 'AppHeader',
@@ -101,7 +100,8 @@ export default {
     MenuItems,
     BellIcon,
     MenuIcon,
-    XIcon
+    XIcon,
+    UserIcon
   },
   data() {
     return {
@@ -110,12 +110,21 @@ export default {
         {name: 'Markdown', href: '/markdown', active: location.pathname === '/markdown'},
         {name: 'Slider', href: '/slider', active: location.pathname === '/slider'},
       ],
+      user: null,
+    }
+  },
+  methods: {
+    logout() {
+      logout()
     }
   },
   watch: {
     $route(to) {
       this.navigation.map(item => item.active = item.href === to.path)
     }
+  },
+  created() {
+    registerUserStateChangeEvent(user => this.user = user)
   }
 }
 </script>
