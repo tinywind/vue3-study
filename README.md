@@ -4,6 +4,7 @@
 * https://tailwindcss.com/docs/guides/vue-3-vite
 * https://tailwindcss.com/docs
 * https://cli.vuejs.org/guide/mode-and-env.html#environment-variables
+* https://github.com/AykutSarac/chatify/blob/main/src/client/src/components/ChatScreen.vue
 
 # UI components
 

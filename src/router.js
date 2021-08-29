@@ -5,6 +5,7 @@ import Markdown from "@/pages/Markdown"
 import Slider from "@/pages/Slider";
 import Calculator from "@/pages/Calculator";
 import ReusableModal from "@/pages/ReusableModal";
+import Chat from "@/pages/Chat";
 
 export default createRouter({
     history: createWebHistory(),
@@ -15,5 +16,6 @@ export default createRouter({
         {path: '/slider', component: Slider},
         {path: '/calculator', component: Calculator},
         {path: '/reusable-modal', component: ReusableModal},
+        {path: '/chat', component: Chat},
     ]
 })

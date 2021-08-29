@@ -1,8 +1,8 @@
 <template>
   <Disclosure v-slot="{ open }" as="nav" class="bg-gray-800">
-    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-2 md:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <div class="absolute inset-y-0 left-0 flex items-center md:hidden">
           <DisclosureButton
               class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <span class="sr-only">Open main menu</span>
@@ -10,14 +10,14 @@
             <XIcon v-else aria-hidden="true" class="block h-6 w-6"/>
           </DisclosureButton>
         </div>
-        <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-1 flex items-center justify-center md:items-stretch md:justify-start">
           <div class="flex-shrink-0 flex items-center">
             <router-link to="/">
               <img alt="logo" class="block lg:hidden h-8 w-auto" src="../assets/logo.png"/>
               <img alt="logo" class="hidden lg:block h-8 w-auto" src="../assets/logo.png"/>
             </router-link>
           </div>
-          <div class="hidden sm:block sm:ml-6">
+          <div class="hidden md:block md:ml-6">
             <div class="flex space-x-4">
               <button class="text-white px-3 py-2 rounded-md text-sm font-medium" @click="showingAbout = true">About</button>
               <router-link v-for="item in navigation" :key="item.name"
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <div v-if="user" class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <div v-if="user" class="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
           <button
               class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
               type="button">
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <DisclosurePanel class="sm:hidden">
+    <DisclosurePanel class="md:hidden">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <router-link v-for="item in navigation" :key="item.name"
                      :aria-current="item.active ? 'page' : undefined"
@@ -113,14 +113,18 @@ export default {
     UserIcon
   },
   data() {
+    const pages = {
+      Calendar: '/calendar',
+      Markdown: '/markdown',
+      Slider: '/slider',
+      Calculator: '/calculator',
+      ReusableModal: '/reusable-modal',
+      Chat: '/chat',
+    }
     return {
-      navigation: [
-        {name: 'Calendar', href: '/calendar', active: location.pathname === '/calendar'},
-        {name: 'Markdown', href: '/markdown', active: location.pathname === '/markdown'},
-        {name: 'Slider', href: '/slider', active: location.pathname === '/slider'},
-        {name: 'Calculator', href: '/calculator', active: location.pathname === '/calculator'},
-        {name: 'ReusableModal', href: '/reusable-modal', active: location.pathname === '/reusable-modal'},
-      ],
+      navigation: Object.keys(pages).map(e => {
+        return {name: e, href: pages[e], active: pages[e] === location.pathname}
+      }),
       user: null,
       showingAbout: false,
     }

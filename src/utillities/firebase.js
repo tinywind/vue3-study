@@ -1,5 +1,6 @@
-import {initializeApp} from 'firebase/app';
-import {getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth"
+import {initializeApp} from 'firebase/app'
+import {getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth"
+import {addDoc, collection, doc, getDocs, getFirestore, onSnapshot, query, serverTimestamp, setDoc} from "firebase/firestore";
 
 const app = initializeApp({
     apiKey: process.env.VUE_APP_API_KEY,
@@ -19,3 +20,44 @@ export const login = (email, password) => {
 export const logout = () => signOut(getAuth())
 
 export const registerUserStateChangeEvent = fn => onAuthStateChanged(getAuth(), fn)
+
+const db = getFirestore()
+const CHATROOM_COLLECTION_NAME = 'rooms'
+const DEFAULT_CHATROOM_ID = 'DEFAULT'
+const DEFAULT_CHATROOM_NAME = 'default chatroom'
+
+const messagesCollection = () => collection(doc(db, CHATROOM_COLLECTION_NAME, DEFAULT_CHATROOM_ID), "messages")
+
+export const createMessageCollection = async () => {
+    try {
+        await setDoc(doc(collection(db, CHATROOM_COLLECTION_NAME), DEFAULT_CHATROOM_ID), {name: DEFAULT_CHATROOM_NAME})
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const registerMessageHandler = (func) => {
+    try {
+        onSnapshot(query(messagesCollection()), (snapshot) => {
+            snapshot.docChanges().forEach((change) => func(change.type, change.doc.data()))
+        })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const sendMessage = async (message, userId, senderName, avatar) => {
+    try {
+        await addDoc(messagesCollection(), {
+            userId: userId,
+            message: message,
+            timeStamp: serverTimestamp(),
+            sender: senderName,
+            avatar: avatar
+        })
+    } catch (e) {
+        console.error("Error adding document: ", e)
+    }
+}
+
+export const getMessages = async () => await getDocs(messagesCollection())
