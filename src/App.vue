@@ -11,7 +11,6 @@ import AppHeader from "@/components/AppHeader"
 import LoginModal from "@/components/LoginModal"
 
 export default {
-  name: 'App',
   components: {
     LoginModal,
     AppHeader,

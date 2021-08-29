@@ -14,7 +14,6 @@ import marked from 'marked'
 import debounce from "@/utillities/debounce";
 
 export default {
-  name: "Markdown",
   mixins: [debounce],
   data() {
     return {

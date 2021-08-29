@@ -39,7 +39,6 @@ import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot} fro
 import {login, registerUserStateChangeEvent} from "@/utillities/firebase"
 
 export default {
-  name: "LoginModal",
   components: {
     TransitionRoot,
     TransitionChild,

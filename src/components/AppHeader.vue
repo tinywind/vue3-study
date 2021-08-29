@@ -99,7 +99,6 @@ import {BellIcon, MenuIcon, UserIcon, XIcon} from "@zhuowenli/vue-feather-icons"
 import {logout, registerUserStateChangeEvent} from "@/utillities/firebase";
 
 export default {
-  name: 'AppHeader',
   components: {
     Disclosure,
     DisclosureButton,
@@ -119,6 +118,7 @@ export default {
         {name: 'Calendar', href: '/calendar', active: location.pathname === '/calendar'},
         {name: 'Markdown', href: '/markdown', active: location.pathname === '/markdown'},
         {name: 'Slider', href: '/slider', active: location.pathname === '/slider'},
+        {name: 'Calculator', href: '/calculator', active: location.pathname === '/calculator'},
       ],
       user: null,
       showingAbout: false,

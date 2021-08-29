@@ -31,7 +31,6 @@
 <script>
 
 export default {
-  name: "Markdown",
   data() {
     return {
       currentSlider: 0,
