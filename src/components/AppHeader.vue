@@ -19,6 +19,7 @@
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
+              <button class="text-white px-3 py-2 rounded-md text-sm font-medium" @click="showingAbout = true">About</button>
               <router-link v-for="item in navigation" :key="item.name"
                            :aria-current="item.active && 'page'"
                            :class="[item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white']"
@@ -81,7 +82,16 @@
         </router-link>
       </div>
     </DisclosurePanel>
+
+    <teleport to="#modals">
+      <div v-if="showingAbout" class="inset-0 fixed bg-gray-500 bg-opacity-50" @click="showingAbout = false">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-1/2 w-1/2 bg-red-500 bg-opacity-20 text-center">
+          I am studying Vue.js
+        </div>
+      </div>
+    </teleport>
   </Disclosure>
+
 </template>
 <script>
 import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
@@ -111,6 +121,7 @@ export default {
         {name: 'Slider', href: '/slider', active: location.pathname === '/slider'},
       ],
       user: null,
+      showingAbout: false,
     }
   },
   methods: {
