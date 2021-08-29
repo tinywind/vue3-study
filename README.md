@@ -31,11 +31,14 @@ VUE_APP_MEASUREMENT_ID={yours}
 
 4. enable Google Email sign-in: `https://console.firebase.google.com/u/0/project/{project-id}/authentication/providers`
 
-
 #### ref:
 
 - https://firebase.google.com/docs/firestore/quickstart
 - https://firebase.google.com/docs/database/security
+
+# I don't know yet....
+
+- Why use composition API: ref(), reactive() ? We can do without ref(), reactive() functions. Really need to use them? Which situations do you absolutely need them?? why use? for performance? or for code readability?
 
 ## Project setup
 

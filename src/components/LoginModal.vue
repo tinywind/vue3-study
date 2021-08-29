@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import {ref} from "vue"
 import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
 import {login, registerUserStateChangeEvent} from "@/utillities/firebase"
 
@@ -51,31 +50,24 @@ export default {
   props: {
     callCount: Number
   },
-  setup() {
-    let isOpen = ref(false);
-    return {
-      isOpen,
-      setIsOpen(value) {
-        isOpen.value = value;
-      },
-    };
-  },
   data() {
     return {
+      isOpen: false,
       username: null,
       password: null
     }
   },
   methods: {
     submit() {
-      console.log(this.$refs.username)
-
       login(this.username, this.password)
           .then((userCredential) => {
             this.user = userCredential.user
             this.$emit('close-login-modal', {result: true})
           })
           .catch(error => alert('login failed: ' + error.message))
+    },
+    setIsOpen(value) {
+      this.isOpen = value;
     }
   },
   watch: {
