@@ -4,6 +4,7 @@ import Home from "@/pages/Home"
 import Markdown from "@/pages/Markdown"
 import Slider from "@/pages/Slider";
 import Calculator from "@/pages/Calculator";
+import ReusableModal from "@/pages/ReusableModal";
 
 export default createRouter({
     history: createWebHistory(),
@@ -13,5 +14,6 @@ export default createRouter({
         {path: '/markdown', component: Markdown},
         {path: '/slider', component: Slider},
         {path: '/calculator', component: Calculator},
+        {path: '/reusable-modal', component: ReusableModal},
     ]
 })

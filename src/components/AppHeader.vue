@@ -119,6 +119,7 @@ export default {
         {name: 'Markdown', href: '/markdown', active: location.pathname === '/markdown'},
         {name: 'Slider', href: '/slider', active: location.pathname === '/slider'},
         {name: 'Calculator', href: '/calculator', active: location.pathname === '/calculator'},
+        {name: 'ReusableModal', href: '/reusable-modal', active: location.pathname === '/reusable-modal'},
       ],
       user: null,
       showingAbout: false,
