@@ -5,9 +5,9 @@
         <div class="min-h-screen px-4 text-center">
 
           <!-- Dimmer. when click, disappear dialog -->
-          <!-- <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100" leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">-->
-          <!-- <DialogOverlay class="fixed inset-0 bg-black opacity-30" />-->
-          <!-- </TransitionChild>-->
+          <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100" leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
+            <DialogOverlay class="fixed inset-0 bg-black opacity-30"/>
+          </TransitionChild>
 
           <span aria-hidden="true" class="inline-block h-screen align-middle">&#8203;</span>
           <TransitionChild as="template"
@@ -17,7 +17,7 @@
               <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900 text-center pb-5">Google Login</DialogTitle>
               <div class="mt-2">
                 <label>username/email</label>
-                <input v-model="username" class="rounded shadow p-2 w-full" placeholder="enter your username or email" type="text"/>
+                <input ref="username" v-model="username" class="rounded shadow p-2 w-full" placeholder="enter your username or email" type="text"/>
               </div>
               <div class="mt-2">
                 <label>password</label>
@@ -36,7 +36,7 @@
 
 <script>
 import {ref} from "vue"
-import {Dialog, DialogTitle, TransitionChild, TransitionRoot,} from '@headlessui/vue'
+import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
 import {login, registerUserStateChangeEvent} from "@/utillities/firebase"
 
 export default {
@@ -45,7 +45,7 @@ export default {
     TransitionRoot,
     TransitionChild,
     Dialog,
-    // DialogOverlay,
+    DialogOverlay,
     DialogTitle,
   },
   props: {
@@ -68,6 +68,8 @@ export default {
   },
   methods: {
     submit() {
+      console.log(this.$refs.username)
+
       login(this.username, this.password)
           .then((userCredential) => {
             this.user = userCredential.user
@@ -83,6 +85,9 @@ export default {
   },
   created() {
     registerUserStateChangeEvent(() => this.setIsOpen(false))
+  },
+  updated() {
+    this.isOpen && this.$refs.username.focus()
   }
 }
 </script>
