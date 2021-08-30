@@ -6,8 +6,9 @@ import Slider from "@/pages/Slider";
 import Calculator from "@/pages/Calculator";
 import ReusableModal from "@/pages/ReusableModal";
 import Chat from "@/pages/Chat";
+import store from "@/store/index"
 
-export default createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: [
         {path: '/', component: Home},
@@ -16,6 +17,20 @@ export default createRouter({
         {path: '/slider', component: Slider},
         {path: '/calculator', component: Calculator},
         {path: '/reusable-modal', component: ReusableModal},
-        {path: '/chat', component: Chat},
+        {
+            path: '/chat', component: Chat,
+            meta: {middleware: 'auth'},
+        },
     ]
+})
+export default router
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.middleware) {
+        const middleware = require(`./middleware/${to.meta.middleware}`)
+        if (middleware)
+            return middleware.default(to, from, next, store)
+    }
+
+    next()
 })

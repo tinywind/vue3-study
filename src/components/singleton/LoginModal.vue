@@ -35,7 +35,7 @@
 
 <script>
 import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot} from '@headlessui/vue'
-import {login, registerUserStateChangeEvent} from "@/utillities/firebase"
+import {login} from "@/utillities/firebase"
 
 export default {
   components: {
@@ -55,18 +55,14 @@ export default {
   methods: {
     submit() {
       login(this.username, this.password)
-          .then((userCredential) => {
-            this.user = userCredential.user
-            this.$emit('close-login-modal', {result: true})
-          })
+          .then(() => this.$store.commit('login/hide'))
           .catch(error => alert('login failed: ' + error.message))
     },
   },
-  created() {
-    registerUserStateChangeEvent(() => this.$store.commit('login/hide'))
-  },
   updated() {
     this.store.showing && this.$refs.username.focus()
+  },
+  created() {
   }
 }
 </script>

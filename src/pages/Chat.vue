@@ -24,15 +24,16 @@
 </template>
 
 <script>
-import {createMessageCollection, registerMessageHandler, registerUserStateChangeEvent, sendMessage} from "@/utillities/firebase";
-import avatar1 from '@/assets/avatar1.svg';
+import {createMessageCollection, registerMessageHandler, sendMessage} from "@/utillities/firebase"
+import avatar1 from '@/assets/avatar1.svg'
+import router from "@/router"
 
 export default {
   data() {
     return {
-      user: null,
       channelMessages: [],
       unknownAvatar: avatar1,
+      user: this.$store.state.user,
     }
   },
   methods: {
@@ -44,7 +45,7 @@ export default {
     },
     userSendMsg(e) {
       if (e.target.value === '') return;
-      sendMessage(e.target.value, this.user.uid, this.user.displayName || this.user.email, this.user.photoURL)
+      sendMessage(e.target.value, this.user.credential?.uid, this.user.credential?.displayName || this.user.credential?.email, this.user.credential?.photoURL)
       e.target.value = '';
     },
     convertToLink(text) {
@@ -53,19 +54,26 @@ export default {
           (text) => `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`,
       );
     },
+    initChat() {
+      createMessageCollection()
+      registerMessageHandler((type, data) => {
+        if (type === 'added') {
+          this.channelMessages.push(data)
+          this.channelMessages.sort((a, b) => a.timeStamp - b.timeStamp)
+        }
+      })
+    }
+  },
+  watch: {
+    user() {
+      if (this.user)
+        this.initChat()
+      else
+        router.push('/')
+    },
   },
   mounted() {
-    registerUserStateChangeEvent(user => {
-      if ((this.user = user)) {
-        createMessageCollection()
-        registerMessageHandler((type, data) => {
-          if (type === 'added') {
-            this.channelMessages.push(data)
-            this.channelMessages.sort((a, b) => a.timeStamp - b.timeStamp)
-          }
-        })
-      }
-    })
+    this.initChat()
   },
   updated() {
     this.scrollBottom()

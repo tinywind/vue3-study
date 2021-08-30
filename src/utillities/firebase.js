@@ -19,7 +19,7 @@ export const login = (email, password) => {
 }
 export const logout = () => signOut(getAuth())
 
-export const registerUserStateChangeEvent = fn => onAuthStateChanged(getAuth(), fn)
+export const registerUserStateChangeEventHandler = fn => onAuthStateChanged(getAuth(), fn)
 
 const db = getFirestore()
 const CHATROOM_COLLECTION_NAME = 'rooms'
