@@ -13,8 +13,8 @@
         <div class="flex-1 flex items-center justify-center md:items-stretch md:justify-start">
           <div class="flex-shrink-0 flex items-center">
             <router-link to="/">
-              <img alt="logo" class="block lg:hidden h-8 w-auto" src="../assets/logo.png"/>
-              <img alt="logo" class="hidden lg:block h-8 w-auto" src="../assets/logo.png"/>
+              <img alt="logo" class="block lg:hidden h-8 w-auto" :src="logo"/>
+              <img alt="logo" class="hidden lg:block h-8 w-auto" :src="logo"/>
             </router-link>
           </div>
           <div class="hidden md:block md:ml-6">
@@ -26,7 +26,7 @@
                            :to="item.href"
                            class="px-3 py-2 rounded-md text-sm font-medium">{{ item.name }}
               </router-link>
-              <button v-if="!user" :class="'text-gray-300 hover:bg-gray-700 hover:text-white'" class="px-3 py-2 rounded-md text-sm font-medium" type="button" @click="$emit('show-login-modal')">
+              <button v-if="!user" :class="'text-gray-300 hover:bg-gray-700 hover:text-white'" class="px-3 py-2 rounded-md text-sm font-medium" type="button" @click="this.$store.commit('login/show')">
                 Login
               </button>
             </div>
@@ -97,6 +97,7 @@
 import {Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 import {BellIcon, MenuIcon, UserIcon, XIcon} from "@zhuowenli/vue-feather-icons"
 import {logout, registerUserStateChangeEvent} from "@/utillities/firebase";
+import logo from '@/assets/logo.png'
 
 export default {
   components: {
@@ -110,7 +111,7 @@ export default {
     BellIcon,
     MenuIcon,
     XIcon,
-    UserIcon
+    UserIcon,
   },
   data() {
     const pages = {
@@ -127,12 +128,13 @@ export default {
       }),
       user: null,
       showingAbout: false,
+      logo,
     }
   },
   methods: {
     logout() {
       logout()
-    }
+    },
   },
   watch: {
     $route(to) {

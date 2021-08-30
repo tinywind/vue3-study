@@ -1,6 +1,6 @@
 <template>
-  <TransitionRoot :show="isOpen" appear as="template">
-    <Dialog :open="isOpen" @close="setIsOpen">
+  <TransitionRoot :show="store.showing" appear as="template">
+    <Dialog :open="store.showing" @close="this.$store.commit('login/hide')">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
 
@@ -45,12 +45,9 @@ export default {
     DialogOverlay,
     DialogTitle,
   },
-  props: {
-    callCount: Number
-  },
   data() {
     return {
-      isOpen: false,
+      store: this.$store.state.login,
       username: null,
       password: null
     }
@@ -64,20 +61,12 @@ export default {
           })
           .catch(error => alert('login failed: ' + error.message))
     },
-    setIsOpen(value) {
-      this.isOpen = value;
-    }
-  },
-  watch: {
-    callCount() {
-      this.setIsOpen(true)
-    }
   },
   created() {
-    registerUserStateChangeEvent(() => this.setIsOpen(false))
+    registerUserStateChangeEvent(() => this.$store.commit('login/hide'))
   },
   updated() {
-    this.isOpen && this.$refs.username.focus()
+    this.store.showing && this.$refs.username.focus()
   }
 }
 </script>
