@@ -124,6 +124,7 @@ export default {
       ReusableModal: '/reusable-modal',
       Chat: '/chat',
       Crud: '/crud',
+      Tensorflow: '/tensorflow',
     }
     return {
       navigation: Object.keys(pages).map(e => ({name: e, href: pages[e], active: pages[e] === location.pathname})),

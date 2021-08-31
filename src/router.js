@@ -8,6 +8,7 @@ import ReusableModal from "@/pages/ReusableModal";
 import Crud from "@/pages/Crud";
 import Chat from "@/pages/Chat";
 import store from "@/store/index"
+import Tensorflow from "@/pages/Tensorflow";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -20,6 +21,7 @@ const router = createRouter({
         {path: '/reusable-modal', component: ReusableModal},
         {path: '/chat', component: Chat, meta: {middleware: 'auth'},},
         {path: '/crud', component: Crud},
+        {path: '/tensorflow', component: Tensorflow},
     ]
 })
 export default router
