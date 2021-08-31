@@ -123,6 +123,7 @@ export default {
       Calculator: '/calculator',
       ReusableModal: '/reusable-modal',
       Chat: '/chat',
+      Crud: '/crud',
     }
     return {
       navigation: Object.keys(pages).map(e => ({name: e, href: pages[e], active: pages[e] === location.pathname})),

@@ -1,12 +1,12 @@
 <template>
-  <TransitionRoot :show="isOpen" appear as="template">
-    <Dialog as="div" @close="isOpen = false">
+  <TransitionRoot :show="showing" appear as="template">
+    <Dialog as="div">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
           <TransitionChild as="template"
                            enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
                            leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
-            <DialogOverlay class="fixed inset-0"/>
+            <DialogOverlay :class="overlayClass" class="fixed inset-0"/>
           </TransitionChild>
 
           <span aria-hidden="true" class="inline-block h-screen align-middle">&#8203;</span>
@@ -24,13 +24,12 @@
                 </p>
               </div>
 
-              <div class="mt-4 text-center">
-                <button
-                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    type="button"
-                    @click="isOpen = false">
-                  Close
-                </button>
+              <div class="mt-4">
+                <slot name="footer">
+                  <button
+                      class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      type="button" @click="this.$emit('close')">Close of self</button>
+                </slot>
               </div>
             </div>
           </TransitionChild>
@@ -44,23 +43,15 @@
 import {Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot,} from '@headlessui/vue'
 
 export default {
-  props: ['call'],
+  props: {
+    showing: Boolean, overlayClass: String
+  },
   components: {
     TransitionRoot,
     TransitionChild,
     Dialog,
     DialogOverlay,
     DialogTitle,
-  },
-  data() {
-    return {
-      isOpen: false
-    }
-  },
-  watch: {
-    call() {
-      this.isOpen = true
-    }
   },
 }
 </script>

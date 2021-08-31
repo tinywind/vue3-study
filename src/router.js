@@ -5,6 +5,7 @@ import Markdown from "@/pages/Markdown"
 import Slider from "@/pages/Slider";
 import Calculator from "@/pages/Calculator";
 import ReusableModal from "@/pages/ReusableModal";
+import Crud from "@/pages/Crud";
 import Chat from "@/pages/Chat";
 import store from "@/store/index"
 
@@ -17,10 +18,8 @@ const router = createRouter({
         {path: '/slider', component: Slider},
         {path: '/calculator', component: Calculator},
         {path: '/reusable-modal', component: ReusableModal},
-        {
-            path: '/chat', component: Chat,
-            meta: {middleware: 'auth'},
-        },
+        {path: '/chat', component: Chat, meta: {middleware: 'auth'},},
+        {path: '/crud', component: Crud},
     ]
 })
 export default router

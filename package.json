@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.4.0",
+    "@ocrv/vue-tailwind-pagination": "^0.0.4",
     "@zhuowenli/vue-feather-icons": "^5.0.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^9.0.0",
     "marked": "^3.0.2",
