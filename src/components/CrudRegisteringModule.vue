@@ -69,6 +69,12 @@ export default {
 
         if (200 <= response.status < 300) {
           this.showingModal = false
+          this.form = {
+            first_name: null,
+            last_name: null,
+            email: null,
+            avatar: null
+          }
 
           // When headlessui Modals are over 1, cannot find focusable element.
           setTimeout(() => this.$store.commit('alert/show', 'success'), 500)
