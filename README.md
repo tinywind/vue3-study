@@ -14,6 +14,9 @@
 * https://tailwindcomponents.com/
 * https://next.vuetifyjs.com/en/
 
+# non-solved issue
+* when refresh chat page, do auth-middleware. It's from `doing middle is before than creating App`
+
 # Login Setup
 
 1. create a Firebase project in the Firebase console: `https://console.firebase.google.com/`
