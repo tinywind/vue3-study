@@ -9,7 +9,7 @@
         <div v-for="msg in channelMessages" :key="msg.id" :class="{ self: user.uid === msg.userId }" class="flex gap-2 w-75 mb-4 bubble">
           <img :src="msg.avatar || unknownAvatar" alt="avatar" height="50" width="50"/>
           <div class="text">
-            <div class="username">{{ msg.sender }}</div>
+            <div class="username">{{ msg.sender }} {{ convertReadableTimeformat(msg.timeStamp) }}</div>
             <div class="chatfield p-2">
               <span v-html="convertToLink(msg.message)"></span>
             </div>
@@ -24,19 +24,35 @@
 </template>
 
 <script>
+import moment from 'moment'
 import {createMessageCollection, registerMessageHandler, sendMessage} from "@/utillities/firebase"
 import avatar1 from '@/assets/avatar1.svg'
 import router from "@/router"
+import debounce from "@/utillities/mixins/debounce";
+
+function compareTimeStamp(a, b) {
+  const secDiff = a.seconds - b.seconds
+  if (secDiff !== 0)
+    return secDiff
+  return a.nanoseconds - b.nanoseconds
+}
 
 export default {
+  mixins: [
+    debounce
+  ],
   data() {
     return {
       channelMessages: [],
       unknownAvatar: avatar1,
       user: this.$store.state.user,
+      messageBuffer: []
     }
   },
   methods: {
+    convertReadableTimeformat(timestamp) {
+      return moment(timestamp.seconds).format('MM-DD hh:mm')
+    },
     scrollBottom() {
       const messages = document.getElementsByClassName('messages')[0];
       if (messages) {
@@ -58,9 +74,33 @@ export default {
       createMessageCollection()
       registerMessageHandler((type, data) => {
         if (type === 'added') {
-          this.channelMessages.push(data)
-          this.channelMessages.sort((a, b) => a.timeStamp - b.timeStamp)
+          this.update(data)
         }
+      })
+    },
+    update(data) {
+      const messageBuffer = this.messageBuffer
+      const channelMessages = this.channelMessages
+
+      messageBuffer.push(data)
+      if (!data.timeStamp) {
+        data.timeStamp = {}
+        data.timeStamp.seconds = new Date().getTime()
+        data.timeStamp.nanoseconds = 0
+      }
+
+      this.debounce(() => {
+        console.log('debounce')
+        let sorting = false
+        messageBuffer.forEach(function (data) {
+          channelMessages.push(data)
+          if (channelMessages.length === 1 || compareTimeStamp(channelMessages[channelMessages.length - 2].timeStamp, data.timeStamp) <= 0)
+            return
+
+          sorting = true
+        })
+        this.messageBuffer = []
+        sorting && channelMessages.sort(compareTimeStamp)
       })
     }
   },

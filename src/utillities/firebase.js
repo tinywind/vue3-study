@@ -14,6 +14,8 @@ const app = initializeApp({
 
 export default app
 
+export const getLoginedUser = getAuth
+
 export const login = (email, password) => {
     return signInWithEmailAndPassword(getAuth(), email, password)
 }

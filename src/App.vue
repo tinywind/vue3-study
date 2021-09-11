@@ -14,7 +14,7 @@
 import AppHeader from "@/components/singleton/AppHeader"
 import LoginModal from "@/components/singleton/LoginModal"
 import AlertModal from "@/components/singleton/AlertModal";
-import {registerUserStateChangeEventHandler} from "@/utillities/firebase";
+import {getLoginedUser, registerUserStateChangeEventHandler} from "@/utillities/firebase";
 
 export default {
   components: {
@@ -28,7 +28,8 @@ export default {
     }
   },
   created() {
+    this.user = getLoginedUser()
     registerUserStateChangeEventHandler(user => this.$store.commit(user ? 'user/login' : 'user/logout', user))
-  }
+  },
 }
 </script>
