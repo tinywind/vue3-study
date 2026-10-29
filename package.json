@@ -3,53 +3,49 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "test": "vitest run"
   },
   "dependencies": {
     "@headlessui/vue": "^1.4.0",
     "@ocrv/vue-tailwind-pagination": "^0.0.4",
-    "@tensorflow-models/coco-ssd": "^2.2.2",
-    "@tensorflow/tfjs-backend-cpu": "^3.9.0",
-    "@tensorflow/tfjs-backend-webgl": "^3.9.0",
-    "@tensorflow/tfjs-converter": "^3.9.0",
-    "@tensorflow/tfjs-core": "^3.9.0",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs-backend-cpu": "^4.22.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
+    "@tensorflow/tfjs-converter": "^4.22.0",
+    "@tensorflow/tfjs-core": "^4.22.0",
     "@zhuowenli/vue-feather-icons": "^5.0.2",
-    "axios": "^0.21.1",
-    "core-js": "^3.6.5",
-    "firebase": "^9.0.0",
-    "marked": "^3.0.2",
-    "moment": "^2.29.1",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.11",
+    "axios": "^1.21.0",
+    "dompurify": "^3.4.17",
+    "firebase": "^13.1.0",
+    "marked": "^18.1.2",
+    "moment": "^2.31.0",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "autoprefixer": "^9.8.6",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.8"
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/compiler-sfc": "^3.5.44",
+    "autoprefixer": "^10.6.2",
+    "eslint": "^10.13.0",
+    "eslint-plugin-vue": "^10.12.0",
+    "globals": "^17.13.0",
+    "jsdom": "^30.1.3",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^3.4.19",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+  "overrides": {
+    "@grpc/grpc-js": "1.14.6"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "browserslist": [
     "> 1%",

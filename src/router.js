@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import auth from '@/middleware/auth'
 import Calendar from "@/pages/Calendar"
 import Home from "@/pages/Home"
 import Markdown from "@/pages/Markdown"
@@ -27,10 +28,8 @@ const router = createRouter({
 export default router
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.middleware) {
-        const middleware = require(`./middleware/${to.meta.middleware}`)
-        if (middleware)
-            return middleware.default(to, from, next, store)
+    if (to.meta.middleware === 'auth') {
+        return auth(to, from, next, store)
     }
 
     next()

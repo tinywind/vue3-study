@@ -3,7 +3,7 @@
 * https://www.youtube.com/watch?v=e-E0UB-YDRk&t=3827s
 * https://tailwindcss.com/docs/guides/vue-3-vite
 * https://tailwindcss.com/docs
-* https://cli.vuejs.org/guide/mode-and-env.html#environment-variables
+* https://vite.dev/guide/env-and-mode.html
 * https://github.com/AykutSarac/chatify/blob/main/src/client/src/components/ChatScreen.vue
 
 # UI components
@@ -50,29 +50,20 @@ Great! We can use ref(), reactive() when make composition APIs util functions!
 
 ## Project setup
 
-```
-yarn install
-```
+Use Node 22.22.2, 24.15 or a newer supported LTS/current release and the committed npm lockfile. Node 24 is used for verification.
 
-### Compiles and hot-reloads for development
-
-```
-yarn serve
+```sh
+npm ci
+npm run serve
 ```
 
-### Compiles and minifies for production
+Vite reads the existing public `VUE_APP_*` variables from `.env.local`. The Firebase app ID is `VUE_APP_APP_ID`; the legacy `VUE_APP_VUE_APP_ID` key remains a fallback for existing configurations. These values are bundled into the client; never put service account keys or other private credentials in them.
 
-```
-yarn build
-```
-
-### Lints and fixes files
-
-```
-yarn lint
+```sh
+npm test
+npm run lint
+npm run build
+npm audit
 ```
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
+The production output is `dist/`; `npm run preview` serves it locally. See [security verification](SECURITY_CHECKS.md) for the dependency and content-rendering checks.
