@@ -50,7 +50,7 @@ Great! We can use ref(), reactive() when make composition APIs util functions!
 
 ## Project setup
 
-Use Node 22.13 or newer supported LTS/current release and the committed npm lockfile. Node 24 is used for verification.
+Use Node 22.22.2, 24.15 or a newer supported LTS/current release and the committed npm lockfile. Node 24 is used for verification.
 
 ```sh
 npm ci
