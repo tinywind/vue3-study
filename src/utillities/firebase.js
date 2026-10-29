@@ -8,7 +8,7 @@ const app = initializeApp({
     projectId: import.meta.env.VUE_APP_PROJECT_ID,
     storageBucket: import.meta.env.VUE_APP_STORAGE_BUCKET,
     messagingSenderId: import.meta.env.VUE_APP_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VUE_APP_APP_ID,
+    appId: import.meta.env.VUE_APP_APP_ID ?? import.meta.env.VUE_APP_VUE_APP_ID,
     measurementId: import.meta.env.VUE_APP_MEASUREMENT_ID,
 })
 

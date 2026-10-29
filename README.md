@@ -57,7 +57,7 @@ npm ci
 npm run serve
 ```
 
-Vite reads the existing public `VUE_APP_*` variables from `.env.local`. The Firebase app ID is `VUE_APP_APP_ID`. These values are bundled into the client; never put service account keys or other private credentials in them.
+Vite reads the existing public `VUE_APP_*` variables from `.env.local`. The Firebase app ID is `VUE_APP_APP_ID`; the legacy `VUE_APP_VUE_APP_ID` key remains a fallback for existing configurations. These values are bundled into the client; never put service account keys or other private credentials in them.
 
 ```sh
 npm test
