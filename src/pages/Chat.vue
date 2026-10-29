@@ -25,6 +25,7 @@
 
 <script>
 import moment from 'moment'
+import DOMPurify from 'dompurify'
 import {createMessageCollection, registerMessageHandler, sendMessage} from "@/utillities/firebase"
 import avatar1 from '@/assets/avatar1.svg'
 import router from "@/router"
@@ -65,10 +66,22 @@ export default {
       e.target.value = '';
     },
     convertToLink(text) {
-      return text.replace(
-          /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\\/%=~_|$])/gim,
-          (text) => `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`,
-      );
+      const content = document.createElement('span')
+      const pattern = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\\/%=~_|$])/gim
+      let end = 0
+      for (const match of text.matchAll(pattern)) {
+        content.append(document.createTextNode(text.slice(end, match.index)))
+        const link = document.createElement('a')
+        link.className = 'text-primary'
+        link.rel = 'noreferrer'
+        link.target = '_blank'
+        link.href = match[0]
+        link.textContent = match[0]
+        content.append(link)
+        end = match.index + match[0].length
+      }
+      content.append(document.createTextNode(text.slice(end)))
+      return DOMPurify.sanitize(content.innerHTML, {ALLOWED_TAGS: ['a'], ALLOWED_ATTR: ['href', 'class', 'rel', 'target']})
     },
     initChat() {
       createMessageCollection()

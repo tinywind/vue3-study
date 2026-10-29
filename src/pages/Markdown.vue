@@ -10,7 +10,8 @@
   </div>
 </template>
 <script>
-import marked from 'marked'
+import {marked} from 'marked'
+import DOMPurify from 'dompurify'
 import useDebounce from "@/utillities/compositions/useDebounce";
 
 export default {
@@ -22,7 +23,7 @@ export default {
   },
   computed: {
     getMarked() {
-      return marked(this.text)
+      return DOMPurify.sanitize(marked.parse(this.text))
     }
   },
   methods: {
