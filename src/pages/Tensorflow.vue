@@ -27,9 +27,9 @@
 import {ref} from "vue";
 import store from "@/store/index"
 
-require('@tensorflow/tfjs-backend-cpu');
-require('@tensorflow/tfjs-backend-webgl');
-const cocoSsd = require('@tensorflow-models/coco-ssd');
+import '@tensorflow/tfjs-backend-cpu';
+import '@tensorflow/tfjs-backend-webgl';
+import * as cocoSsd from '@tensorflow-models/coco-ssd';
 
 export default {
   setup() {

@@ -3,13 +3,13 @@ import {getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "
 import {addDoc, collection, doc, getDocs, getFirestore, onSnapshot, query, serverTimestamp, setDoc} from "firebase/firestore";
 
 const app = initializeApp({
-    apiKey: process.env.VUE_APP_API_KEY,
-    authDomain: process.env.VUE_APP_AUTH_DOMAIN,
-    projectId: process.env.VUE_APP_PROJECT_ID,
-    storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID,
-    appId: process.env.VUE_APP_VUE_APP_ID,
-    measurementId: process.env.VUE_APP_MEASUREMENT_ID,
+    apiKey: import.meta.env.VUE_APP_API_KEY,
+    authDomain: import.meta.env.VUE_APP_AUTH_DOMAIN,
+    projectId: import.meta.env.VUE_APP_PROJECT_ID,
+    storageBucket: import.meta.env.VUE_APP_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VUE_APP_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VUE_APP_APP_ID,
+    measurementId: import.meta.env.VUE_APP_MEASUREMENT_ID,
 })
 
 export default app
